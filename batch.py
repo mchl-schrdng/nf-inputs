@@ -8,8 +8,7 @@ SCHEMA = 'sr:INTEGER,abv:FLOAT,id:INTEGER,name:STRING,style:STRING,ounces:FLOAT'
 
 def discard_incomplete(data):
     """Filters out records that don't have an information."""
-    return len(data['abv']) > 0 and len(data['id']) > 0 and len(data['name']) > 0 and len(data['style']) > 0
-
+    return len(data['show_id']) > 0 and len(data['type']) > 0 and len(data['title']) > 0 and len(data['director']) > 0 and len(data['cast']) > 0 and len(data['country']) > 0 and len(data['date_added']) > 0 and len(data['release_year']) > 0 and len(data['rating']) > 0 and len(data['duration']) > 0 and len(data['listed_in']) > 0 and len(data['description']) > 0
 
 def convert_types(data):
     """Converts string values to their appropriate type."""
