@@ -37,7 +37,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     known_args = parser.parse_known_args(argv)
 
-    with beam.Pipeline(options=PipelineOptions()) as pipeline:
+    pipeline = beam.Pipeline(options=PipelineOptions())
 
     (pipeline   | 'ReadData' >> beam.io.ReadFromText('gs://nf-bucket-test/batch/netflix_titles.csv', skip_header_lines =1)
                 | 'SplitData' >> beam.Map(lambda x: x.split(','))
