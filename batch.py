@@ -8,7 +8,6 @@ SCHEMA = 'show_id:INTEGER,type:STRING,title:STRING,director:STRING,country:STRIN
 
 def discard_incomplete(data):
     """Filters out records that don't have an information."""
-   def discard_incomplete(data):
     return len(data['show_id']) > 0 and len(data['type']) > 0 and len(data['title']) > 0 and len(data['director']) > 0 and len(data['country']) > 0 and len(data['release_year']) > 0 and len(data['rating']) > 0 and len(data['duration']) > 0
 
 
