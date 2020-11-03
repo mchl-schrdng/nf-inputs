@@ -37,9 +37,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     known_args = parser.parse_known_args(argv)
 
-    pipeline = beam.Pipeline(options=PipelineOptions())
+    p = beam.Pipeline(options=PipelineOptions())
 
-    (pipeline   | 'ReadData' >> beam.io.ReadFromText('gs://nf-bucket-test/batch/netflix_titles.csv', skip_header_lines =1)
+    (p   | 'ReadData' >> beam.io.ReadFromText('gs://nf-bucket-test/batch/netflix_titles.csv', skip_header_lines =1)
                 | 'SplitData' >> beam.Map(lambda x: x.split(','))
                 | 'FormatToDict' >> beam.Map(lambda x: {"show_id": x[0], "type": x[1], "title": x[2], "director": x[3], "country": x[4], "release_year": x[5], "rating": x[6], "duration": x[7]}) 
                 | 'DeleteIncompleteData' >> beam.Filter(discard_incomplete)
@@ -49,5 +49,5 @@ if __name__ == '__main__':
                         '{0}:nf_dataset.nf_data'.format(PROJECT_ID),
                          schema=SCHEMA,
                          write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND))
-                         result = pipeline.run()
+                         result = p.run()
     result.wait_until_finish()
