@@ -50,3 +50,4 @@ if __name__ == '__main__':
            schema=SCHEMA,
            write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND))
     result = p.run()
+    result.wait_until_finish()
