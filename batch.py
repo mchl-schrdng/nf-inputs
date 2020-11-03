@@ -39,15 +39,15 @@ if __name__ == '__main__':
 
     p = beam.Pipeline(options=PipelineOptions())
 
-    (p   | 'ReadData' >> beam.io.ReadFromText('gs://nf-bucket-test/batch/netflix_titles.csv', skip_header_lines =1)
-                | 'SplitData' >> beam.Map(lambda x: x.split(','))
-                | 'FormatToDict' >> beam.Map(lambda x: {"show_id": x[0], "type": x[1], "title": x[2], "director": x[3], "country": x[4], "release_year": x[5], "rating": x[6], "duration": x[7]}) 
-                | 'DeleteIncompleteData' >> beam.Filter(discard_incomplete)
-                | 'ChangeDataType' >> beam.Map(convert_types)
-                | 'DeleteUnwantedData' >> beam.Map(del_unwanted_cols)
-                | 'WriteToBigQuery' >> beam.io.WriteToBigQuery(
-                        '{0}:nf_dataset.nf_data'.format(PROJECT_ID),
-                         schema=SCHEMA,
-                         write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND))
-                         result = p.run()
+    (p | 'ReadData' >> beam.io.ReadFromText('gs://nf-bucket-test/batch/netflix_titles.csv', skip_header_lines =1)
+       | 'SplitData' >> beam.Map(lambda x: x.split(','))
+       | 'FormatToDict' >> beam.Map(lambda x: {"show_id": x[0], "type": x[1], "title": x[2], "director": x[3], "country": x[4], "release_year": x[5], "rating": x[6], "duration": x[7]}) 
+       | 'DeleteIncompleteData' >> beam.Filter(discard_incomplete)
+       | 'ChangeDataType' >> beam.Map(convert_types)
+       | 'DeleteUnwantedData' >> beam.Map(del_unwanted_cols)
+       | 'WriteToBigQuery' >> beam.io.WriteToBigQuery(
+           '{0}:nf_dataset.nf_data'.format(PROJECT_ID),
+           schema=SCHEMA,
+           write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND))
+    result = p.run()
     result.wait_until_finish()
