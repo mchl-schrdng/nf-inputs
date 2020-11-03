@@ -47,7 +47,7 @@ if __name__ == '__main__':
      | 'ChangeDataType' >> beam.Map(convert_types)
      | 'DeleteUnwantedData' >> beam.Map(del_unwanted_cols)
      | 'WriteToBigQuery' >> beam.io.WriteToBigQuery(
-         '{0}:nf.nf_data'.format(PROJECT_ID),
+         '{0}:nf_dataset.nf_data'.format(PROJECT_ID),
          schema=SCHEMA,
          write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND))
     result = pipeline.run()
